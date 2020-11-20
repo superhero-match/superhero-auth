@@ -15,6 +15,6 @@ package config
 
 // JWT holds all the configuration settings for the JWT.
 type JWT struct {
-	AccessTokenSecret  string `env:"JWT_ACCESS_TOKEN_SECRET" default:"access_token_secret"`
-	RefreshTokenSecret string `env:"JWT_REFRESH_TOKEN_SECRET" default:"refresh_token_secret"`
+	AccessTokenSecret  string `env:"SUPERHERO_AUTH_JWT_ACCESS_TOKEN_SECRET" yaml:"access_token_secret" default:"access_token_secret"`
+	RefreshTokenSecret string `env:"SUPERHERO_AUTH_JWT_REFRESH_TOKEN_SECRET" yaml:"refresh_token_secret" default:"refresh_token_secret"`
 }

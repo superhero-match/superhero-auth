@@ -15,8 +15,8 @@ package config
 
 // App holds the configuration values for the application.
 type App struct {
-	Port       string `env:"APP_PORT" yaml:"port" default:":9100"`
-	CertFile   string `env:"APP_CERT_FILE" yaml:"cert_file" default:"./cmd/api/certificate.pem"`
-	KeyFile    string `env:"APP_KEY_FILE" yaml:"key_file" default:"./cmd/api/key.pem"`
-	TimeFormat string `env:"APP_TIME_FORMAT" yaml:"time_format" default:"2006-01-02T15:04:05"`
+	Port       string `env:"SUPERHERO_AUTH_APP_PORT" yaml:"port" default:":9100"`
+	CertFile   string `env:"SUPERHERO_AUTH_APP_CERT_FILE" yaml:"cert_file" default:"./cmd/api/certificate.pem"`
+	KeyFile    string `env:"SUPERHERO_AUTH_APP_KEY_FILE" yaml:"key_file" default:"./cmd/api/key.pem"`
+	TimeFormat string `env:"SUPERHERO_AUTH_APP_TIME_FORMAT" yaml:"time_format" default:"2006-01-02T15:04:05"`
 }

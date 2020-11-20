@@ -15,7 +15,7 @@ package config
 
 // Health holds configuration for health server.
 type Health struct {
-	Port             string `env:"HEALTH_SERVER_PORT" default:":8290"`
-	ShutdownEndpoint string `env:"HEALTH_SERVER_SHUTDOWN_ENDPOINT" default:"/api/v1/superhero_auth_health/shutdown"`
-	ContentType      string `env:"HEALTH_SERVER_CONTENT_TYPE" default:"application/json"`
+	Port             string `env:"SUPERHERO_AUTH_HEALTH_SERVER_PORT" yaml:"port" default:":8290"`
+	ShutdownEndpoint string `env:"SUPERHERO_AUTH_HEALTH_SERVER_SHUTDOWN_ENDPOINT" yaml:"shutdown_endpoint" default:"/api/v1/superhero_auth_health/shutdown"`
+	ContentType      string `env:"SUPERHERO_AUTH_HEALTH_SERVER_CONTENT_TYPE" yaml:"content_type" default:"application/json"`
 }
