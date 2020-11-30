@@ -14,7 +14,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/superhero-match/superhero-auth/cmd/api/controller"
 	"github.com/superhero-match/superhero-auth/internal/config"
 	"github.com/superhero-match/superhero-auth/internal/health"
@@ -36,15 +35,6 @@ func main() {
 	}
 
 	r := ctrl.RegisterRoutes()
-
-	fmt.Println("cfg.App.Port")
-	fmt.Println(cfg.App.Port)
-	fmt.Println("cfg.App.CertFile")
-	fmt.Println(cfg.App.CertFile)
-	fmt.Println("cfg.App.KeyFile")
-	fmt.Println(cfg.App.KeyFile)
-	fmt.Println("cfg.App.TimeFormat")
-	fmt.Println(cfg.App.TimeFormat)
 
 	err = r.RunTLS(
 		cfg.App.Port,
