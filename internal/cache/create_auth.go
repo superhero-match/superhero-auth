@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -14,11 +14,13 @@
 package cache
 
 import (
-	"github.com/superhero-match/superhero-auth/internal/cache/model"
 	"time"
+
+	"github.com/superhero-match/superhero-auth/internal/cache/model"
 )
 
-func(c *Cache) CreateAuth(userID string, td model.TokenDetails) error {
+// CreateAuth sets token and refresh token in cache.
+func (c *cache) CreateAuth(userID string, td model.TokenDetails) error {
 	at := time.Unix(td.AtExpires, 0)
 	rt := time.Unix(td.RtExpires, 0)
 

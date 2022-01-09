@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -11,28 +11,15 @@
   You should have received a copy of the GNU General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-package main
+package controller
 
 import (
-	"github.com/superhero-match/superhero-auth/cmd/health/controller"
-	"github.com/superhero-match/superhero-auth/internal/config"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	cfg, err := config.NewConfig()
-	if err != nil {
-		panic(err)
-	}
-
-	ctrl, err := controller.NewController()
-	if err != nil {
-		panic(err)
-	}
-
-	r := ctrl.RegisterRoutes()
-
-	err = r.Run(cfg.Health.Port)
-	if err != nil {
-		panic(err)
-	}
+// Health is used for health checks from loadbalancer.
+func (ctl *Controller) Health(c *gin.Context) {
+	c.Status(http.StatusOK)
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -16,7 +16,6 @@ package main
 import (
 	"github.com/superhero-match/superhero-auth/cmd/api/controller"
 	"github.com/superhero-match/superhero-auth/internal/config"
-	"github.com/superhero-match/superhero-auth/internal/health"
 )
 
 func main() {
@@ -25,27 +24,15 @@ func main() {
 		panic(err)
 	}
 
-	client := health.NewClient(cfg)
-
 	ctrl, err := controller.NewController(cfg)
 	if err != nil {
-		_ = client.ShutdownHealthServer()
-
 		panic(err)
 	}
 
 	r := ctrl.RegisterRoutes()
 
-	err = r.RunTLS(
-		cfg.App.Port,
-		cfg.App.CertFile,
-		cfg.App.KeyFile,
-	)
+	err = r.Run(cfg.App.Port)
 	if err != nil {
-		_ = client.ShutdownHealthServer()
-
 		panic(err)
 	}
-
-	_ = client.ShutdownHealthServer()
 }

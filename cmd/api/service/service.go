@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -15,37 +15,35 @@ package service
 
 import (
 	"github.com/superhero-match/superhero-auth/internal/cache"
+	"github.com/superhero-match/superhero-auth/internal/cache/model"
 	"github.com/superhero-match/superhero-auth/internal/config"
 	j "github.com/superhero-match/superhero-auth/internal/jwt"
-	"go.uber.org/zap"
+	jm "github.com/superhero-match/superhero-auth/internal/jwt/model"
 )
 
-// Service holds all the different services that are used when handling request.
-type Service struct {
-	Cache      *cache.Cache
-	JWT        *j.JWT
-	Logger     *zap.Logger
-	TimeFormat string
+// Service interface defines service methods.
+type Service interface {
+	CreateAuth(userID string, td model.TokenDetails) error
+	FetchAuth(authD *model.AccessDetails) (string, error)
+	DeleteAuth(uuid string) (int64, error)
+	CreateToken(userID string) (*jm.TokenDetails, error)
+}
+
+// service holds all the different services that are used when handling request.
+type service struct {
+	Cache cache.Cache
+	JWT   j.JWT
 }
 
 // NewService creates value of type Service.
-func NewService(cfg *config.Config) (*Service, error) {
+func NewService(cfg *config.Config) (Service, error) {
 	c, err := cache.NewCache(cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	logger, err := zap.NewProduction()
-	if err != nil {
-		return nil, err
-	}
-
-	defer logger.Sync()
-
-	return &Service{
-		Cache:      c,
-		JWT:        j.NewJWT(cfg),
-		Logger:     logger,
-		TimeFormat: cfg.App.TimeFormat,
+	return &service{
+		Cache: c,
+		JWT:   j.NewJWT(cfg),
 	}, nil
 }

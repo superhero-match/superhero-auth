@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -14,13 +14,16 @@
 package jwt
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/superhero-match/superhero-auth/internal/jwt/model"
-	"github.com/twinj/uuid"
 	"time"
+
+	jw "github.com/dgrijalva/jwt-go"
+	"github.com/twinj/uuid"
+
+	"github.com/superhero-match/superhero-auth/internal/jwt/model"
 )
 
-func (j *JWT) CreateToken(userID string) (*model.TokenDetails, error) {
+// CreateToken create new JWT access and refresh tokens.
+func (j *jwt) CreateToken(userID string) (*model.TokenDetails, error) {
 	td := &model.TokenDetails{}
 	td.AtExpires = time.Now().Add(time.Minute * 15).Unix()
 	td.AccessUuid = uuid.NewV4().String()
@@ -31,13 +34,13 @@ func (j *JWT) CreateToken(userID string) (*model.TokenDetails, error) {
 	var err error
 
 	// Creating Access Token
-	atClaims := jwt.MapClaims{}
+	atClaims := jw.MapClaims{}
 	atClaims["authorized"] = true
 	atClaims["access_uuid"] = td.AccessUuid
 	atClaims["user_id"] = userID
 	atClaims["exp"] = td.AtExpires
 
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	at := jw.NewWithClaims(jw.SigningMethodHS256, atClaims)
 
 	td.AccessToken, err = at.SignedString([]byte(j.AccessTokenSecret))
 	if err != nil {
@@ -45,12 +48,12 @@ func (j *JWT) CreateToken(userID string) (*model.TokenDetails, error) {
 	}
 
 	// Creating Refresh Token
-	rtClaims := jwt.MapClaims{}
+	rtClaims := jw.MapClaims{}
 	rtClaims["refresh_uuid"] = td.RefreshUuid
 	rtClaims["user_id"] = userID
 	rtClaims["exp"] = td.RtExpires
 
-	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
+	rt := jw.NewWithClaims(jw.SigningMethodHS256, rtClaims)
 
 	td.RefreshToken, err = rt.SignedString([]byte(j.RefreshTokenSecret))
 	if err != nil {

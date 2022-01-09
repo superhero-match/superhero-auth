@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -14,22 +14,24 @@
 package controller
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/superhero-match/superhero-auth/cmd/api/model"
-	cm "github.com/superhero-match/superhero-auth/internal/cache/model"
-	"go.uber.org/zap"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+
+	"github.com/superhero-match/superhero-auth/cmd/api/model"
+	cm "github.com/superhero-match/superhero-auth/internal/cache/model"
 )
 
 func (ctrl *Controller) Token(c *gin.Context) {
 	var user model.User
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		ctrl.Service.Logger.Error(
+		ctrl.Logger.Error(
 			"failed while binding request data to API model User in Token handler",
 			zap.String("err", err.Error()),
-			zap.String("time", time.Now().UTC().Format(ctrl.Service.TimeFormat)),
+			zap.String("time", time.Now().UTC().Format(ctrl.TimeFormat)),
 		)
 
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -43,10 +45,10 @@ func (ctrl *Controller) Token(c *gin.Context) {
 
 	token, err := ctrl.Service.CreateToken(user.ID)
 	if err != nil {
-		ctrl.Service.Logger.Error(
+		ctrl.Logger.Error(
 			"failed while creating token pair in Token handler",
 			zap.String("err", err.Error()),
-			zap.String("time", time.Now().UTC().Format(ctrl.Service.TimeFormat)),
+			zap.String("time", time.Now().UTC().Format(ctrl.TimeFormat)),
 		)
 
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -67,10 +69,10 @@ func (ctrl *Controller) Token(c *gin.Context) {
 		RtExpires:    token.RtExpires,
 	})
 	if saveErr != nil {
-		ctrl.Service.Logger.Error(
+		ctrl.Logger.Error(
 			"failed while saving token pair in Token handler",
 			zap.String("err", saveErr.Error()),
-			zap.String("time", time.Now().UTC().Format(ctrl.Service.TimeFormat)),
+			zap.String("time", time.Now().UTC().Format(ctrl.TimeFormat)),
 		)
 
 		c.JSON(http.StatusInternalServerError, gin.H{

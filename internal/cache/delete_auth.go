@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -13,7 +13,8 @@
 */
 package cache
 
-func (c *Cache) DeleteAuth(uuid string) (int64, error) {
+// DeleteAuth deletes token from cache.
+func (c *cache) DeleteAuth(uuid string) (int64, error) {
 	deleted, err := c.Redis.Del(uuid).Result()
 	if err != nil {
 		return 0, err

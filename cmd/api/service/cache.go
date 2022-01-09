@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -17,14 +17,17 @@ import (
 	"github.com/superhero-match/superhero-auth/internal/cache/model"
 )
 
-func (srv *Service) CreateAuth(userID string, td model.TokenDetails) error {
+// CreateAuth sets token and refresh token in cache.
+func (srv *service) CreateAuth(userID string, td model.TokenDetails) error {
 	return srv.Cache.CreateAuth(userID, td)
 }
 
-func (srv *Service) FetchAuth(authD *model.AccessDetails) (string, error) {
+// FetchAuth fetches token from cache.
+func (srv *service) FetchAuth(authD *model.AccessDetails) (string, error) {
 	return srv.Cache.FetchAuth(authD)
 }
 
-func (srv *Service) DeleteAuth(uuid string) (int64, error) {
+// DeleteAuth deletes token from cache.
+func (srv *service) DeleteAuth(uuid string) (int64, error) {
 	return srv.Cache.DeleteAuth(uuid)
 }

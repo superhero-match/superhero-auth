@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2021 MWSOFT
+  Copyright (C) 2019 - 2022 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -15,16 +15,23 @@ package jwt
 
 import (
 	"github.com/superhero-match/superhero-auth/internal/config"
+	"github.com/superhero-match/superhero-auth/internal/jwt/model"
 )
 
-type JWT struct {
+// JWT interface defines JWT methods.
+type JWT interface {
+	CreateToken(userID string) (*model.TokenDetails, error)
+}
+
+// jwt holds all the JWT data.
+type jwt struct {
 	AccessTokenSecret  string
 	RefreshTokenSecret string
 }
 
-// NewCache creates a client connection to Redis.
-func NewJWT(cfg *config.Config) (j *JWT) {
-	return &JWT{
+// NewJWT creates new JWT.
+func NewJWT(cfg *config.Config) (j JWT) {
+	return &jwt{
 		AccessTokenSecret:  cfg.JWT.AccessTokenSecret,
 		RefreshTokenSecret: cfg.JWT.RefreshTokenSecret,
 	}

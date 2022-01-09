@@ -1,5 +1,5 @@
 cache:
-  address: '192.168.0.64'
+  address: '192.168.1.229'
   port: ':6379'
   password: 'Awesome85**'
   db: 0
@@ -13,11 +13,4 @@ jwt:
 
 app:
   port: ':9100'
-  cert_file: './cmd/api/certificate.pem'
-  key_file: './cmd/api/key.pem'
   time_format: '2006-01-02T15:04:05'
-
-health:
-  port: ':8290'
-  shutdown_endpoint: '/api/v1/superhero_auth_health/shutdown'
-  content_type: 'application/json'
